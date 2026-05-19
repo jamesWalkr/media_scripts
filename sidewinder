@@ -1,0 +1,34 @@
+!#/bin/bash
+
+
+arg=$1
+music_files=$2
+zip_file=$MUSIC_TRANSFER/$music_files.zip
+
+if [[ "$#" -ne 1 ]]; then
+  echo "Illegal number of parameters"
+  exit 1
+fi
+
+echo "MUSIC"
+echo "$MUSIC_TRANSFER"
+echo "MUSIC_FILES"
+echo "$zip_file"
+
+
+upload(){
+    echo "inside upload function."
+    #zip -r "$MUSIC_TRANSFER"/"$music_files".zip "$MUSIC"/"$MUSIC_FILES"
+    #curl -X POST -F "file=@$zip_file" http://fernserver:8080/file/upload
+  }
+
+
+
+case "$1" in
+upload)
+  upload
+  ;;
+*)
+  echo "Please choose either upload or download to run this script."
+  ;;
+esac
