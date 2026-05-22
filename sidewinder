@@ -1,25 +1,29 @@
-!#/bin/bash
+#!/bin/bash
 
 
 arg=$1
-music_files=$2
-zip_file=$MUSIC_TRANSFER/$music_files.zip
+music_files="$2"
+zip_name="${music_files%/}.zip"
+zip_file="$MUSIC_TRANSFER/$zip_name"
+target_path="/home/james/Downloads/music_from_macbook"
 
-if [[ "$#" -ne 1 ]]; then
+if [[ "$#" -ne 2 ]]; then
   echo "Illegal number of parameters"
   exit 1
 fi
 
-echo "MUSIC"
+echo "$MUSIC"
 echo "$MUSIC_TRANSFER"
-echo "MUSIC_FILES"
+echo "$music_files"
+echo "$zip_name"
 echo "$zip_file"
 
-
 upload(){
-    echo "inside upload function."
-    #zip -r "$MUSIC_TRANSFER"/"$music_files".zip "$MUSIC"/"$MUSIC_FILES"
-    #curl -X POST -F "file=@$zip_file" http://fernserver:8080/file/upload
+    echo "zipping $music_files"
+    zip -r "$MUSIC_TRANSFER"/"$zip_name" "$MUSIC"/"$music_files"
+    echo "Sending to via scp"
+    scp "$zip_file" "$SSH_USER"@"$SERVER_IP":"$target_path"
+    echo "Done"
   }
 
 
