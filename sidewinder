@@ -6,31 +6,40 @@ music_files="$2"
 zip_name="${music_files%/}.zip"
 zip_file="$MUSIC_TRANSFER/$zip_name"
 target_path="/home/james/Downloads/music_from_macbook"
-
+unzip_script="/home/james/Scripts/media_scripts/unzip"
 if [[ "$#" -ne 2 ]]; then
   echo "Illegal number of parameters"
   exit 1
 fi
 
-echo "$MUSIC"
-echo "$MUSIC_TRANSFER"
 echo "$music_files"
-echo "$zip_name"
-echo "$zip_file"
 
 upload(){
+    
+    echo "$MUSIC"
+    echo "$MUSIC_TRANSFER"
+    echo "$zip_name"
+    echo "$zip_file"
+    
     echo "zipping $music_files"
-    zip -r "$MUSIC_TRANSFER"/"$zip_name" "$MUSIC"/"$music_files"
+    zip -r "$zip_name" "$MUSIC"/"$music_files"
     echo "Sending to via scp"
     scp "$zip_file" "$SSH_USER"@"$SERVER_IP":"$target_path"
     echo "Done"
-  }
+     }
 
+unzip(){
+  echo "unziping $(basename "${music_files}")"
+  $unzip_script "$music_files"
 
+}
 
 case "$1" in
 upload)
   upload
+  ;;
+unzip)
+  unzip
   ;;
 *)
   echo "Please choose either upload or download to run this script."

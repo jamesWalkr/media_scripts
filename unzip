@@ -1,0 +1,35 @@
+#!/bin/bash
+
+arg="$1"
+
+# Get the file name without path
+filename=$(basename "$arg")
+
+# Get the extension(s) of the file
+ext="${filename##*.}"
+if [[ "$ext" == "$filename" ]]; then
+  echo "Extension absent"
+  exit 1;
+fi
+
+
+# Check if there is a double extension
+base="${filename%.*}"
+ext2="${base##*.}"
+if [[ "$ext2" == "tar" ]]; then
+  ext="$ext2.$ext"
+fi
+
+# Match the extension with the file type
+case "$ext" in
+  gz) 
+    echo "file compressed with \"gzip\""
+    ;;
+  tar.gz|tgz) 
+    echo "tape archive file compressed with \"gzip\""
+    ;;
+  zip) 
+    echo "ZIP archive"
+    unzip "$arg"
+    ;;
+esac
