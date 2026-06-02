@@ -21,10 +21,10 @@ upload(){
     echo "$zip_name"
     echo "$zip_file"
     
-    echo "zipping $music_files"
-    zip -r "$zip_name" "$MUSIC"/"$music_files"
+    #echo "zipping $music_files"
+    # zip "$MUSIC_TRANSFER"/"$zip_name" "$music_files"
     echo "Sending to via scp"
-    scp "$zip_file" "$SSH_USER"@"$SERVER_IP":"$target_path"
+    scp -r "$music_files" "$SSH_USER"@"$SERVER_IP":"$target_path"
     echo "Done"
      }
 
